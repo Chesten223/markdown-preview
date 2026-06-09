@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Preview — Free Online Editor &amp; Previewer</title>
+<meta name="description" content="Free online Markdown editor and previewer. Write Markdown with instant live preview. Supports headers, bold, italic, links, lists, code blocks, blockquotes.">
+<meta name="keywords" content="markdown editor, markdown previewer, online markdown, live preview, markdown to html, free markdown tool">
+<meta name="author" content="Chesten">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://markdown-preview.chesten.workers.dev/">
+<meta property="og:title" content="Markdown Preview — Free Online Editor & Previewer">
+<meta property="og:description" content="Write Markdown with instant live preview. No signup, no tracking, works offline.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://markdown-preview.chesten.workers.dev/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Markdown Preview — Free Online Editor & Previewer">
+<meta name="twitter:description" content="Write Markdown with instant live preview. No signup, no tracking, works offline.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Markdown Preview",
+  "url": "https://markdown-preview.chesten.workers.dev/",
+  "description": "Free online Markdown editor and previewer with instant live preview.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+:root {
+  --bg:#0d1117; --card:#161b22; --border:#30363d; --text:#e6edf3;
+  --dim:#8b949e; --green:#238636; --blue:#1f6feb;
+  --radius:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:1200px;margin:0 auto;padding:0 1rem}
+
+/* Header */
+header{border-bottom:1px solid var(--border);padding:1rem 0;text-align:center}
+header h1{font-size:1.5rem;font-weight:600}
+header p{color:var(--dim);font-size:.9rem;margin-top:.25rem}
+
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;padding:.75rem 0}
+.btn{display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .75rem;font-size:.8rem;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:var(--radius);cursor:pointer;transition:border-color .15s,background .15s}
+.btn:hover{border-color:var(--dim);background:#1c2129}
+.btn svg{width:14px;height:14px;fill:currentColor}
+.spacer{flex:1}
+
+/* Editor */
+.editor-wrap{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;min-height:520px}
+.pane{display:flex;flex-direction:column}
+.pane-header{padding:.5rem .75rem;font-size:.75rem;font-weight:600;color:var(--dim);background:var(--card);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.04em}
+#editor{flex:1;width:100%;resize:none;border:none;outline:none;padding:1rem;font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;font-size:.875rem;line-height:1.6;background:var(--bg);color:var(--text);tab-size:2}
+#preview{flex:1;padding:1rem;overflow-y:auto;background:var(--card)}
+#preview h1,#preview h2,#preview h3,#preview h4,#preview h5,#preview h6{margin:1rem 0 .5rem;line-height:1.3}
+#preview h1{font-size:1.75rem;border-bottom:1px solid var(--border);padding-bottom:.3rem}
+#preview h2{font-size:1.4rem;border-bottom:1px solid var(--border);padding-bottom:.3rem}
+#preview h3{font-size:1.15rem}
+#preview p{margin:.5rem 0}
+#preview ul,#preview ol{margin:.5rem 0;padding-left:1.5rem}
+#preview li{margin:.2rem 0}
+#preview code{font-family:'SF Mono',SFMono-Regular,Consolas,monospace;font-size:.85em;background:#1c2129;padding:.15em .35em;border-radius:3px}
+#preview pre{background:#1c2129;border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem;overflow-x:auto;margin:.75rem 0}
+#preview pre code{background:none;padding:0;font-size:.85rem}
+#preview blockquote{border-left:3px solid var(--blue);padding:.25rem 1rem;margin:.75rem 0;color:var(--dim);background:rgba(31,111,235,.06);border-radius:0 var(--radius) var(--radius) 0}
+#preview a{color:var(--blue)}
+#preview img{max-width:100%;border-radius:var(--radius)}
+#preview hr{border:none;border-top:1px solid var(--border);margin:1rem 0}
+#preview table{border-collapse:collapse;width:100%;margin:.75rem 0}
+#preview th,#preview td{border:1px solid var(--border);padding:.4rem .75rem;text-align:left}
+#preview th{background:var(--card)}
+@media(max-width:768px){.editor-wrap{grid-template-columns:1fr;min-height:auto}#editor{min-height:250px}}
+
+/* Features */
+.features{padding:3rem 0}
+.features h2{text-align:center;font-size:1.5rem;margin-bottom:2rem}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem}
+.feature-card h3{font-size:1rem;margin-bottom:.5rem;color:var(--green)}
+.feature-card p{color:var(--dim);font-size:.9rem}
+
+/* FAQ */
+.faq{padding:3rem 0}
+.faq h2{text-align:center;font-size:1.5rem;margin-bottom:2rem}
+.faq-list{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:1rem}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.faq-q{padding:.85rem 1rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q::after{content:'+';font-size:1.2rem;color:var(--dim);transition:transform .2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a-inner{padding:0 1rem 1rem;color:var(--dim);font-size:.9rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:1.5rem 0;text-align:center;color:var(--dim);font-size:.8rem;margin-top:2rem}
+footer a{color:var(--dim)}footer a:hover{color:var(--text)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>Markdown Preview</h1>
+    <p>Free online Markdown editor with instant live preview. No signup, no tracking.</p>
+  </div>
+</header>
+
+<main class="container">
+  <div class="toolbar">
+    <button class="btn" onclick="loadTemplate('readme')">
+      <svg viewBox="0 0 16 16"><path d="M2 1h12l1 1v12l-1 1H2l-1-1V2zm1 1v12h10V2zm2 3h6v1H5zm0 2h6v1H5zm0 2h4v1H5z"/></svg>
+      README
+    </button>
+    <button class="btn" onclick="loadTemplate('blog')">
+      <svg viewBox="0 0 16 16"><path d="M2 1a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zm1 12V3h10v10zM5 5h6v1H5zm0 2h6v1H5zm0 2h3v1H5z"/></svg>
+      Blog Post
+    </button>
+    <button class="btn" onclick="loadTemplate('issue')">
+      <svg viewBox="0 0 16 16"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9-3H7v5h2zm0 6H7v1h2z"/></svg>
+      Issue
+    </button>
+    <span class="spacer"></span>
+    <button class="btn" onclick="copyMarkdown()">
+      <svg viewBox="0 0 16 16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25zm5-5A1.75 1.75 0 016.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25z"/></svg>
+      Copy Markdown
+    </button>
+    <button class="btn" onclick="copyHTML()">
+      <svg viewBox="0 0 16 16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25zm5-5A1.75 1.75 0 016.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25z"/></svg>
+      Copy HTML
+    </button>
+  </div>
+
+  <div class="editor-wrap">
+    <div class="pane">
+      <div class="pane-header">Markdown</div>
+      <textarea id="editor" spellcheck="false" placeholder="Type or paste Markdown here..."></textarea>
+    </div>
+    <div class="pane">
+      <div class="pane-header">Preview</div>
+      <div id="preview"></div>
+    </div>
+  </div>
+
+  <section class="features">
+    <h2>Why Markdown Preview?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <h3>Instant Live Preview</h3>
+        <p>See rendered output as you type. Zero latency between editing and preview.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Privacy First</h3>
+        <p>Everything runs in your browser. No data is sent to any server. Works offline.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Full Syntax Support</h3>
+        <p>Headers, bold, italic, links, lists, code blocks, blockquotes, tables, and more.</p>
+      </div>
+      <div class="feature-card">
+        <h3>One-Click Copy</h3>
+        <p>Copy the rendered HTML or raw Markdown to your clipboard with a single click.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Ready-Made Templates</h3>
+        <p>Start with README, blog post, or issue templates. Get going in seconds.</p>
+      </div>
+      <div class="feature-card">
+        <h3>No Installation</h3>
+        <p>No signup, no download, no dependencies. Open in any modern browser.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">What Markdown syntax is supported?</div>
+        <div class="faq-a"><div class="faq-a-inner">The editor supports headers (h1–h6), bold, italic, strikethrough, links, images, unordered and ordered lists, inline code, fenced code blocks with language hints, blockquotes, horizontal rules, and tables. It covers the most common Markdown features used in documentation and content writing.</div></div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Is my data stored or sent anywhere?</div>
+        <div class="faq-a"><div class="faq-a-inner">No. All processing happens entirely in your browser using JavaScript. Nothing is sent to any server, no cookies are set, and no tracking scripts are loaded. You can even use the tool offline after the initial page load.</div></div>
+      </div>
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">Can I use this for GitHub README files?</div>
+        <div class="faq-a"><div class="faq-a-inner">Yes. The Markdown flavor rendered here is closely aligned with GitHub Flavored Markdown. Use the README template as a starting point, then copy the raw Markdown directly into your repository's README.md file.</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>Built by <a href="https://github.com/Chesten223">Chesten</a> &mdash; open source &amp; free to use.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var editor = document.getElementById('editor');
+  var preview = document.getElementById('preview');
+  var rawHtml = '';
+
+  // --- Markdown parser ---
+  function parse(md) {
+    var html = '';
+    var lines = md.split('\n');
+    var i = 0;
+    while (i < lines.length) {
+      var line = lines[i];
+      // Fenced code block
+      if (line.match(/^```/)) {
+        var lang = line.replace(/^```/, '').trim();
+        var codeLines = [];
+        i++;
+        while (i < lines.length && !lines[i].match(/^```/)) {
+          codeLines.push(escHtml(lines[i]));
+          i++;
+        }
+        i++; // skip closing ```
+        html += '<pre><code' + (lang ? ' class="language-' + escHtml(lang) + '"' : '') + '>' + codeLines.join('\n') + '</code></pre>';
+        continue;
+      }
+      // Table
+      if (line.indexOf('|') !== -1 && i + 1 < lines.length && lines[i + 1].match(/^\|?\s*[-:]+[-| :]*$/)) {
+        var rows = [];
+        while (i < lines.length && lines[i].indexOf('|') !== -1) {
+          var cells = lines[i].replace(/^\||\|$/g, '').split('|').map(function(c){ return c.trim(); });
+          if (cells.length > 1) rows.push(cells);
+          i++;
+        }
+        if (rows.length >= 2) {
+          html += '<table><thead><tr>';
+          rows[0].forEach(function(c){ html += '<th>' + inline(c) + '</th>'; });
+          html += '</tr></thead><tbody>';
+          for (var r = 2; r < rows.length; r++) {
+            html += '<tr>';
+            rows[r].forEach(function(c){ html += '<td>' + inline(c) + '</td>'; });
+            html += '</tr>';
+          }
+          html += '</tbody></table>';
+        }
+        continue;
+      }
+      // Headings
+      var hMatch = line.match(/^(#{1,6})\s+(.+)/);
+      if (hMatch) {
+        var lvl = hMatch[1].length;
+        html += '<h' + lvl + '>' + inline(hMatch[2]) + '</h' + lvl + '>';
+        i++; continue;
+      }
+      // Blockquote
+      if (line.match(/^>\s?/)) {
+        var qLines = [];
+        while (i < lines.length && lines[i].match(/^>\s?/)) {
+          qLines.push(lines[i].replace(/^>\s?/, ''));
+          i++;
+        }
+        html += '<blockquote>' + parse(qLines.join('\n')) + '</blockquote>';
+        continue;
+      }
+      // Unordered list
+      if (line.match(/^[\s]*[-*+]\s+/)) {
+        html += '<ul>';
+        while (i < lines.length && lines[i].match(/^[\s]*[-*+]\s+/)) {
+          html += '<li>' + inline(lines[i].replace(/^[\s]*[-*+]\s+/, '')) + '</li>';
+          i++;
+        }
+        html += '</ul>'; continue;
+      }
+      // Ordered list
+      if (line.match(/^\d+\.\s+/)) {
+        html += '<ol>';
+        while (i < lines.length && lines[i].match(/^\d+\.\s+/)) {
+          html += '<li>' + inline(lines[i].replace(/^\d+\.\s+/, '')) + '</li>';
+          i++;
+        }
+        html += '</ol>'; continue;
+      }
+      // HR
+      if (line.match(/^[-*_]{3,}\s*$/)) { html += '<hr>'; i++; continue; }
+      // Empty line
+      if (line.trim() === '') { i++; continue; }
+      // Paragraph
+      var para = line;
+      i++;
+      while (i < lines.length && lines[i].trim() !== '' && !lines[i].match(/^(#{1,6}\s|>|[-*+]\s|\d+\.\s|```|\|)/)) {
+        para += '\n' + lines[i];
+        i++;
+      }
+      html += '<p>' + inline(para) + '</p>';
+    }
+    return html;
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function inline(s) {
+    s = escHtml(s);
+    // Code
+    s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+    // Images before links
+    s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+    // Links
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    // Bold
+    s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/__(.+?)__/g, '<strong>$1</strong>');
+    // Italic
+    s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    s = s.replace(/_(.+?)_/g, '<em>$1</em>');
+    // Strikethrough
+    s = s.replace(/~~(.+?)~~/g, '<del>$1</del>');
+    // br
+    s = s.replace(/\n/g, '<br>');
+    return s;
+  }
+
+  function render() {
+    rawHtml = parse(editor.value);
+    preview.innerHTML = rawHtml;
+  }
+
+  editor.addEventListener('input', render);
+
+  // --- Copy ---
+  window.copyHTML = function() {
+    navigator.clipboard.writeText(rawHtml).then(function(){
+      flash('HTML copied!');
+    });
+  };
+  window.copyMarkdown = function() {
+    navigator.clipboard.writeText(editor.value).then(function(){
+      flash('Markdown copied!');
+    });
+  };
+
+  function flash(msg) {
+    var el = document.createElement('div');
+    el.textContent = msg;
+    el.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:.5rem 1.25rem;border-radius:var(--radius);font-size:.85rem;z-index:999;transition:opacity .4s';
+    document.body.appendChild(el);
+    setTimeout(function(){ el.style.opacity = '0'; }, 1500);
+    setTimeout(function(){ el.remove(); }, 2000);
+  }
+
+  // --- Templates ---
+  var templates = {
+    readme: '# Project Name\n\nA brief description of what this project does and who it\'s for.\n\n## Features\n\n- Feature one\n- Feature two\n- Feature three\n\n## Installation\n\n```bash\nnpm install project-name\n```\n\n## Usage\n\n```javascript\nimport { something } from \'project-name\';\n\nsomething();\n```\n\n## API\n\n| Method | Description |\n|--------|-------------|\n| `get()` | Fetch data |\n| `set()` | Update data |\n\n## Contributing\n\n1. Fork the repo\n2. Create your branch\n3. Submit a pull request\n\n## License\n\nMIT',
+    blog: '# My Blog Post Title\n\n> A short subtitle or quote about the post.\n\nPublished on June 9, 2026\n\n---\n\n## Introduction\n\nStart with a hook that grabs attention. Explain **why** this topic matters.\n\n## Main Content\n\n### Section One\n\nWrite your first main point here. Use *emphasis* where needed.\n\n- Key takeaway one\n- Key takeaway two\n\n### Section Two\n\nSupport your argument with evidence:\n\n> The best way to predict the future is to create it. — Abraham Lincoln\n\n### Code Example\n\n```python\ndef hello():\n    print("Hello, world!")\n```\n\n## Conclusion\n\nWrap up with a summary and call to action.\n\n---\n\nThanks for reading!',
+    issue: '## Bug Report\n\n### Description\n\nA clear description of what the bug is.\n\n### Steps to Reproduce\n\n1. Go to \'...\'\n2. Click on \'...\'\n3. See error\n\n### Expected Behavior\n\nWhat you expected to happen.\n\n### Actual Behavior\n\nWhat actually happened.\n\n### Screenshots\n\nIf applicable, add screenshots.\n\n### Environment\n\n- **OS**: Arch Linux\n- **Browser**: Firefox 128\n- **Version**: 1.0.0\n\n### Additional Context\n\nAny other context about the problem.'
+  };
+
+  window.loadTemplate = function(name) {
+    editor.value = templates[name] || '';
+    render();
+  };
+
+  // Init with README template
+  loadTemplate('readme');
+})();
+</script>
+<form id="email-form" style="max-width:400px;margin:2rem auto;text-align:center" action="https://email-collector.chesten.workers.dev/subscribe" method="POST">
+  <input type="email" name="email" placeholder="your@email.com" required style="padding:.45rem .7rem;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:var(--radius);width:60%;font-size:.85rem">
+  <button type="submit" class="btn" style="vertical-align:middle">Subscribe</button>
+</form>
+</body>
+</html>
